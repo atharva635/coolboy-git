@@ -1,0 +1,44 @@
+from flask import Flask, render_template, request, jsonify
+import requests
+
+app = Flask(__name__)
+
+# Function to fetch real-time soil data
+def get_soil_data(lat, lon):
+    api_url = f"https://api.open-meteo.com/v1/forecast?latitude={lat}&longitude={lon}&hourly=soil_moisture_0_to_10cm"
+    
+    try:
+        response = requests.get(api_url)
+        data = response.json()
+        soil_moisture = data["hourly"]["soil_moisture_0_to_10cm"][0]  # First data point
+        return {"moisture": soil_moisture, "ph": 6.5, "temperature": 22}  # Static values for pH & Temp
+    except:
+        return {"error": "Failed to fetch soil data"}
+
+# AI Recommendation
+def get_solution(soil_data):
+    if soil_data["moisture"] < 20:
+        return "Soil is too dry. Water your crops immediately."
+    elif soil_data["moisture"] > 60:
+        return "Soil is too wet. Avoid overwatering to prevent root rot."
+    else:
+        return "Soil conditions are good for most crops."
+
+@app.route('/')
+def soilmonitoring():
+    return render_template('soilmonitoring.html')
+
+@app.route('/get_soil_data', methods=['POST'])
+def fetch_soil():
+    data = request.json
+    lat, lon = data["lat"], data["lon"]
+    soil_data = get_soil_data(lat, lon)
+    
+    if "error" in soil_data:
+        return jsonify({"error": "Failed to fetch soil data"})
+    
+    solution = get_solution(soil_data)
+    return jsonify({"soil_data": soil_data, "solution": solution})
+
+if __name__ == '__main__':
+    app.run(debug=True)

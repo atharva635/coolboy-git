@@ -1,0 +1,15 @@
+# first que
+t = []
+a = input("fruit one : ")
+t.append(a)
+b = input("fruit one : ")
+t.append(b)
+c = input("fruit one : ")
+t.append(c)
+d = input("fruit one : ")
+t.append(d)
+e = input("fruit one : ")
+t.append(e)
+g = input("fruit one : ")
+t.append(g)
+print(t)

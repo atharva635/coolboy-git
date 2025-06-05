@@ -1,0 +1,25 @@
+s = set()
+# yaha par set word likhna hoga tbhi set bnega  
+print(type(s))
+# use alt + shift + down arrow 
+
+a = int(input("Enter : "))
+s.add((a))
+a = int(input("Enter : "))
+s.add((a))
+a = int(input("Enter : "))
+s.add(a)
+a = int(input("Enter : "))
+s.add(a)
+a = int(input("Enter : "))
+s.add(a)
+a = int(input("Enter : "))
+s.add(a)
+a = int(input("Enter : "))
+s.add(a)
+a = int(input("Enter : "))
+s.add(a)
+a = int(input("Enter : "))
+s.add(a)
+
+print(s)
